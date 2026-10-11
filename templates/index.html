@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    WorkNOW - Inicio
+{% endblock %}
+
+{% block content %}
+
+        <!-- Header-->
+    <header class="hero">
+    <div class="container px-4">
+        <h1>
+            Encontre profissionais<br>
+            <span class="destaque">perto de você</span>,<br>
+            de forma rápida e segura.
+        </h1>
+
+        <p class="lead mt-3 mb-4">
+            O <strong>WorkNOW</strong> conecta você a profissionais qualificados
+            em Teresina. Sem burocracia, sem intermediários.
+        </p>
+
+        <form class="search-box" action="#" method="get">
+            <div class="row g-0 align-items-center">
+                <div class="col-12 col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" name="q" class="form-control" placeholder="O que você precisa?">
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 divisor">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0">
+                            <i class="bi bi-geo-alt"></i>
+                        </span>
+                        <label type="text" name="local" class="form-control">Teresina - PI</label>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3 text-md-end mt-2 mt-md-0">
+                    <button type="submit" class="btn btn-buscar w-100">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</header>
+
+<!-- Seção abaixo (mesma cor do fade) -->
+<section class="secao-servicos py-5">
+    <div class="container px-4">
+        <h2 class="h4 fw-bold">Serviços mais procurados</h2>
+        <p class="text-muted">Encontre o profissional ideal para o seu serviço.</p>
+    </div>
+</section>
+
+
+{% endblock %}

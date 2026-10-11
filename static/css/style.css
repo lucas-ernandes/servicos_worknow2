@@ -1,0 +1,265 @@
+/* ===================== BASE DE TODOS =================== */
+html, body{
+    height: 100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+/*################ HEADERRRRR ##################*/
+/* Header branco com degradê verde suave */
+.header-worknow {
+    background: linear-gradient(
+        120deg,
+        #ffffff 0%,
+        #fafffc 65%,
+        #e8fff0 100%
+    );
+
+    border-bottom: 1px solid #d9f5e3;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1000;
+}
+
+/* Nome da marca */
+.logo-work {
+    color: #1f2937;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+/* NOW em verde */
+.logo-work span {
+    color: #16a34a;
+}
+
+/* Links do menu */
+.link-work {
+    color: #374151;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* Efeito ao passar o mouse */
+.link-work:hover {
+    color: #16a34a;
+}
+
+/* Página atual */
+.link-work.ativo {
+    color: #16a34a;
+    font-weight: 700;
+}
+
+/* Botão Login */
+.btn-login {
+    color: #166534;
+    background: transparent;
+    border: 1px solid #16a34a;
+    border-radius: 8px;
+    padding: 9px 20px;
+    transition: all 0.3s ease;
+}
+
+/* Hover Login */
+.btn-login:hover {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #15803d;
+}
+
+/* Botão Cadastrar */
+.btn-cadastrar {
+    color: #ffffff;
+    background: linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+    );
+
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Hover Cadastrar */
+.btn-cadastrar:hover {
+    color: #ffffff;
+    background: linear-gradient(
+        135deg,
+        #16a34a,
+        #15803d
+    );
+
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(22, 163, 74, 0.2);
+}
+
+/* Header logo */
+.header-logo{
+    height: 59px;
+    width: auto;
+    padding-right: 50px;
+}
+
+
+/*FOOOTERR*/
+.logo-footer{
+    height: 200px;
+    width: auto;
+}
+.footer-worknow {
+    background-color: #1e242b;
+    padding: 40px 20px;
+    color: #fbfbfbf6;
+    border-top: 3px solid #00a859;
+    margin-top: auto;
+}
+
+.footer-conteudo{
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-worknow h3{
+    margin-bottom: 10px;
+}
+.footer-worknow h4{
+    margin-bottom: 15px;
+}
+
+.footer-worknow a{
+    display: block;
+    text-decoration: none;
+    color: #b8b1b1f6;
+    transition: color 0.2s ease;
+    margin-bottom: 8px;
+}
+.footer-worknow a:hover{
+    text-decoration: none;
+    color: #00a859;
+}
+.footer-worknow hr{
+    margin: 25px 0 12;
+}
+.copyright{
+    text-align: center;
+    margin: 0;
+
+}
+
+/* ===================== Principal 1 =================== */
+:root {
+        --worknow-blue:  #19c357;
+        --page-bg: #f6f9fc; /* cor de fundo da seção abaixo do hero */
+    }
+
+    .hero {
+        position: relative;
+        min-height: 520px;
+        display: flex;
+        align-items: center;
+        color: #fff;
+        background: url("../img/cidade2.png");
+        background-size: cover;
+        background-position: center 35%;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+
+    /* Degradê escuro na esquerda + leve escurecida geral */
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg,
+            #000000c8 0%,
+                rgba(1, 3, 5, 0.7) 35%,
+                rgba(8, 20, 40, 0.15) 70%,
+                rgba(4, 8, 17, 0) 100%);
+        z-index: 1;
+    }
+
+    /* Fade na parte de baixo: a imagem se mistura com o fundo da página */
+
+
+    .hero .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        line-height: 1.15;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero h1 .destaque {
+        color: var(--worknow-blue);
+        
+    }
+
+    .hero .lead {
+        max-width: 480px;
+        font-size: 1.05rem;
+        opacity: 0.95;
+    }
+
+    .hero .lead strong {
+        color: var(--worknow-blue);
+    }
+
+    /* Barra de busca */
+    .search-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 10px;
+        max-width: 640px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .search-box .form-control {
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .search-box .divisor {
+        border-left: 1px solid #e3e8ef;
+    }
+
+    .search-box .btn-buscar {
+        background: var(--worknow-blue);
+        border: 0;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 28px;
+    }
+
+    .search-box .btn-buscar:hover {
+        background: #0f66dc;
+    }
+
+    /* Seção abaixo precisa ter a mesma cor do fade */
+    .secao-servicos {
+        background: var(--page-bg);
+    }
+
+    @media (max-width: 768px) {
+        .hero { min-height: 480px; }
+        .hero::before {
+            background: linear-gradient(180deg,
+                rgba(8, 20, 40, 0.85) 0%,
+                rgba(8, 20, 40, 0.6) 100%);
+        }
+        .hero-frase { display: none; }
+        .search-box .divisor { border-left: 0; border-top: 1px solid #e3e8ef; }
+    }
