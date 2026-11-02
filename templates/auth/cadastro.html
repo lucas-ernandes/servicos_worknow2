@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    WorkNOW - Cadastro
+{% endblock %}
+
+{% block content %}
+
+{# Mantém o tipo escolhido e os dados digitados se o servidor devolver a página com erro #}
+{% set tipo_atual = request.form.get('tipo', 'cliente') %}
+ 
+<section class="cadastro-page">
+    <div class="container px-4">
+        <div class="cadastro-card">
+            <h1>Crie sua conta</h1>
+            <p class="subtitulo">Cadastre-se para contratar ou oferecer serviços no WorkNOW.</p>
+ 
+            <form id="form-cadastro" action="{{ url_for('cadastro') }}" method="post" novalidate>
+ 
+                <!-- Tipo de conta -->
+                <div class="mb-4">
+                    <span class="form-label d-block">Tipo de conta</span>
+                    <div class="row g-3">
+                        <div class="col-12 col-sm-6 tipo-opcao position-relative">
+                            <input type="radio" name="tipo" id="tipo-cliente" value="cliente"
+                                   {{ 'checked' if tipo_atual == 'cliente' }}>
+                            <label for="tipo-cliente">
+                                <strong>Cliente</strong>
+                                <span>Quero contratar serviços</span>
+                            </label>
+                        </div>
+                        <div class="col-12 col-sm-6 tipo-opcao position-relative">
+                            <input type="radio" name="tipo" id="tipo-profissional" value="profissional"
+                                   {{ 'checked' if tipo_atual == 'profissional' }}>
+                            <label for="tipo-profissional">
+                                <strong>Profissional</strong>
+                                <span>Quero oferecer serviços</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Dados comuns -->
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome completo</label>
+                    <input type="text" class="form-control" id="nome" name="nome"
+                           value="{{ request.form.get('nome', '') }}"
+                           autocomplete="name" required minlength="3">
+                    <div class="invalid-feedback">Informe seu nome completo.</div>
+                </div>
+ 
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-7">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               value="{{ request.form.get('email', '') }}"
+                               autocomplete="email" required>
+                        <div class="invalid-feedback">Informe um e-mail válido.</div>
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <label for="telefone" class="form-label">Telefone com DDD</label>
+                        <input type="tel" class="form-control" id="telefone" name="telefone"
+                               value="{{ request.form.get('telefone', '') }}"
+                               placeholder="(86) 99999-9999" autocomplete="tel"
+                               inputmode="numeric" required pattern="\(\d{2}\) \d{4,5}-\d{4}">
+                        <div class="invalid-feedback">Use o formato (86) 99999-9999.</div>
+                    </div>
+                </div>
+ 
+            <!-- SENHA -->
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6">
+                        <label for="senha" class="form-label">Senha</label>
+                        <div class="input-group has-validation">
+                            <input type="password" class="form-control" id="senha" name="senha"
+                                   autocomplete="new-password" required minlength="8">
+                            <button type="button" class="btn btn-olho" data-alternar-senha="senha"
+                                    aria-label="Mostrar senha">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <div class="invalid-feedback">Use pelo menos 8 caracteres.</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="confirmar_senha" class="form-label">Confirmar senha</label>
+                        <div class="input-group has-validation">
+                            <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha"
+                                   autocomplete="new-password" required>
+                            <button type="button" class="btn btn-olho" data-alternar-senha="confirmar_senha"
+                                    aria-label="Mostrar confirmação de senha">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <div class="invalid-feedback">As senhas precisam ser iguais.</div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Localização (cliente e profissional usam o mesmo campo) -->
+                <div class="mb-4">
+                    <label for="endereco_referencia" class="form-label">
+                        <span id="rotulo-endereco">Endereço de referência</span>
+                        <span id="opcional-endereco" class="text-muted fw-normal">(opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="endereco_referencia" name="endereco_referencia"
+                           value="{{ request.form.get('endereco_referencia', '') }}"
+                           placeholder="Ex.: Rua Coelho Rodrigues, 1000 - Centro">
+                    <div class="form-text" id="ajuda-endereco"></div>
+                    <div class="invalid-feedback">Informe o bairro ou endereço onde você atende.</div>
+                </div>
+ 
+                <!-- Extras do profissional -->
+                <div id="extras-profissional" class="campos-extras mb-4" hidden>
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria principal de atuação</label>
+                        <input type="text" class="form-control" id="categoria" name="categoria"
+                               value="{{ request.form.get('categoria', '') }}"
+                               list="lista-categorias" placeholder="Ex.: Eletricista" required>
+                        <datalist id="lista-categorias">
+                            <option value="Eletricista">
+                            <option value="Encanador">
+                            <option value="Pedreiro">
+                            <option value="Pintor">
+                            <option value="Diarista">
+                            <option value="Jardineiro">
+                            <option value="Marceneiro">
+                            <option value="Técnico de informática">
+                            <option value="Técnico de ar-condicionado">
+                        </datalist>
+                        <div class="form-text">Escolha uma sugestão ou digite a sua.</div>
+                        <div class="invalid-feedback">Informe sua categoria de atuação.</div>
+                    </div>
+ 
+                    <div>
+                        <label for="descricao" class="form-label">Serviços que você oferece</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3"
+                                  maxlength="500" required minlength="20"
+                                  placeholder="Ex.: Instalação e reparo elétrico residencial, troca de disjuntores, chuveiros e tomadas.">{{ request.form.get('descricao', '') }}</textarea>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-text">Mínimo de 20 caracteres.</div>
+                            <div class="form-text"><span id="contador-descricao">0</span>/500</div>
+                        </div>
+                        <div class="invalid-feedback">Descreva seus serviços com pelo menos 20 caracteres.</div>
+                    </div>
+                </div>
+ 
+                <button type="submit" class="btn btn-criar-conta w-100" id="btn-criar-conta">Criar conta</button>
+ 
+                <p class="text-center text-muted mt-4 mb-0">
+                    Já tem conta? <a href="#" class="link-login">Entrar</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+ 
+{% endblock %}
