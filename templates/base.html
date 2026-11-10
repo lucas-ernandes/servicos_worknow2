@@ -12,6 +12,7 @@
           rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil_profis.css')}}">
     </head>
 
     <body id="page-top">
@@ -27,7 +28,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{{ url_for('inicio') }}" class="nav-link px-2 link-work">Início</a></li>
                 <li><a href="#" class="nav-link px-2 link-work">Serviços</a></li>
-                <li><a href="#" class="nav-link px-2 link-work">Profissionais</a></li>
+                <li><a href="{{ url_for('profissionais') }}" class="nav-link px-2 link-work">Profissionais</a></li>
                 <li><a href="#" class="nav-link px-2 link-work">Sobre nós</a></li>
             </ul>
 
@@ -48,7 +49,7 @@
 <!-- MENSAGENS -->
 {% with mensagens = get_flashed_messages(with_categories=true) %}
     {% if mensagens %}
-        <div class="container py-3">
+        <div class="container mb-3">
             {% for categoria, texto in mensagens %}
                 <div class="alert alert-{{ 'danger' if categoria == 'error' else categoria }} mb-2" role="alert">
                     {{ texto }}
@@ -77,7 +78,7 @@
                 <h4>Links</h4>
                 <a href="{{ url_for('inicio') }}">Início</a>
                 <a href="#">Serviços</a>
-                <a href="#">Profissionais</a>
+                <a href="{{ url_for('profissionais') }}">Profissionais</a>
                 <a href="#">Sobre</a>
             </div>
 
