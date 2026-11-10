@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    WorkNOW - {{ profissional.nome }}
+{% endblock %}
+
+{% block content %}
+
+<section class="busca-page">
+    <div class="container px-4">
+
+        <a href="{{ url_for('profissionais') }}" class="link-login">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para a busca
+        </a>
+
+        <article class="perfil-card">
+
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="avatar-prof avatar-prof-grande">{{ profissional.nome[0]|upper }}</div>
+                <div>
+                    <h1 class="h3 fw-bold mb-2">{{ profissional.nome }}</h1>
+                    <span class="badge-categoria">{{ profissional.nome_categoria }}</span>
+
+                    {# disponivel vem do banco: 1 = disponível, 0 = indisponível #}
+                    {% if profissional.disponivel %}
+                        <span class="badge-status on">Disponível</span>
+                    {% else %}
+                        <span class="badge-status off">Indisponível no momento</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <ul class="list-unstyled mb-4">
+                <li class="mb-2">
+                    <i class="fa-solid fa-location-dot text-success"></i>
+                    {{ profissional.nome_bairro }} · Zona {{ profissional.zona }}
+                </li>
+                <li class="mb-2">
+                    {% if profissional.nota_media > 0 %}
+                        <i class="fa-solid fa-star text-warning"></i> {{ '%.1f'|format(profissional.nota_media) }}
+                    {% else %}
+                        <i class="fa-regular fa-star text-muted"></i> <span class="text-muted">Sem avaliações ainda</span>
+                    {% endif %}
+                </li>
+                <li>
+                    {# A data vem como 2026-11-07 21:40:13. Pegamos dia, mês e ano com [início:fim] #}
+                    {% set d = profissional.data_cadastro %}
+                    <i class="fa-regular fa-calendar text-success"></i>
+                    No WorkNOW desde {{ d[8:10] }}/{{ d[5:7] }}/{{ d[0:4] }}
+                </li>
+            </ul>
+
+            <h2 class="h6 fw-bold">Serviços oferecidos</h2>
+            <p class="perfil-descricao mb-0">{{ profissional.descricao }}</p>
+
+        </article>
+
+    </div>
+</section>
+
+{% endblock %}
