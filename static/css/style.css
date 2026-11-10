@@ -452,3 +452,86 @@ body{
     .login-page { padding: 40px 12px 56px; }
     .login-card{max-width: 440px;}
 }
+
+/* =====================tela  BUSCA por PROFISSIONAIS =================== */
+.busca-page {
+    background: var(--page-bg);
+    padding: 48px 0 72px;
+}
+
+/* Caixa branca com os filtros */
+.busca-filtros {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 24px 0;
+    box-shadow: 0 6px 20px rgba(15, 28, 46, 0.06);
+}
+
+.busca-filtros .form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--worknow-ink);
+}
+
+.busca-filtros .form-select {
+    border-radius: 10px;
+    padding: 10px 14px;
+    border-color: var(--line);
+}
+
+.busca-filtros .form-select:focus {
+    border-color: var(--worknow-green);
+    box-shadow: 0 0 0 0.2rem rgba(5, 120, 29, 0.252);
+}
+
+/* Card de cada profissional */
+.card-profissional {
+    height: 100%;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(15, 28, 46, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-profissional:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(15, 28, 46, 0.12);
+}
+
+/* Bolinha verde com a inicial do nome */
+.avatar-prof {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Etiqueta da categoria */
+.badge-categoria {
+    display: inline-block;
+    background: rgba(25, 195, 87, 0.12);
+    color: var(--worknow-green-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 999px;
+}
+
+/* Caixas de seleção da busca da página inicial (visual igual ao campo de texto) */
+.search-box .form-select {
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+}
+

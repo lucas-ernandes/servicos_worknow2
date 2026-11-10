@@ -1,13 +1,42 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    WorkNOW - Inicio
+WorkNOW - Inicio
 {% endblock %}
 
 {% block content %}
 
-        <!-- Header-->
-    <header class="hero">
+<!-- Botão de DISPONIBILIDADE -->
+{# Só aparece para PROFISSIONAL logado (disponivel é None para cliente e visitante) #}
+{% if disponivel is not none %}
+<div class="barra-disponibilidade {{ 'ligada' if disponivel else 'desligada' }}">
+    <div class="container px-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+
+        <span>
+            {% if disponivel %}
+                <strong>Você está disponível</strong> · seu perfil aparece nas buscas.
+            {% else %}
+                <strong>Você está indisponível</strong> · seu perfil não aparece nas buscas.
+            {% endif %}
+        </span>
+
+        {# O campo escondido manda o NOVO estado: se está ligado, manda 0 (desligar); se não, manda 1 #}
+        <form action="{{ url_for('alternar_disponibilidade') }}" method="post" class="form-check form-switch m-0">
+            <input type="hidden" name="disponivel" value="{{ 0 if disponivel else 1 }}">
+            {# onchange = quando a pessoa clica no interruptor, o formulário é enviado na hora #}
+            <input class="form-check-input" type="checkbox" role="switch" id="switch-disponivel"
+                   {{ 'checked' if disponivel }} onchange="this.form.submit()">
+            <label class="form-check-label" for="switch-disponivel">
+                {{ 'Disponível' if disponivel else 'Indisponível' }}
+            </label>
+        </form>
+
+    </div>
+</div>
+{% endif %}
+
+<!-- Header-->
+<header class="hero">
     <div class="container px-4">
         <h1>
             Encontre profissionais<br>
@@ -20,26 +49,32 @@
             em Teresina. Sem burocracia, sem intermediários.
         </p>
 
-        <form class="search-box" action="#" method="get">
+        <form class="search-box" action="{{ url_for('profissionais') }}" method="get">
             <div class="row g-0 align-items-center">
                 <div class="col-12 col-md-5">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-0">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                        <input type="text" name="q" class="form-control" placeholder="O que você precisa?">
+                        <span class="input-group-text bg-transparent border-0"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <select name="categoria" class="form-select" aria-label="Tipo de serviço">
+                            <option value="">Todos os serviços</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id_categoria }}">{{ categoria.nome_categoria }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-4 divisor">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-0">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </span>
-                        <label type="text" name="local" class="form-control">Teresina - PI</label>
+                        <span class="input-group-text bg-transparent border-0"><i
+                                class="fa-solid fa-location-dot"></i></span>
+                        <select name="bairro" class="form-select" aria-label="Bairro">
+                            <option value="">Todos os bairros</option>
+                            {% for bairro in bairros %}
+                            <option value="{{ bairro.id_bairro }}">{{ bairro.nome_bairro }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-3 text-md-end mt-2 mt-md-0">
                     <button type="submit" class="btn btn-buscar w-100">Buscar</button>
                 </div>
