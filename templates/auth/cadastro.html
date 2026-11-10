@@ -57,6 +57,7 @@
                                autocomplete="email" required>
                         <div class="invalid-feedback">Informe um e-mail válido.</div>
                     </div>
+                    
                     <div class="col-12 col-md-5">
                         <label for="telefone" class="form-label">Telefone com DDD</label>
                         <input type="tel" class="form-control" id="telefone" name="telefone"
@@ -96,39 +97,36 @@
                     </div>
                 </div>
  
-                <!-- Localização (cliente e profissional usam o mesmo campo) -->
+                <!-- Bairro (cliente e profissional usam o mesmo campo) -->
                 <div class="mb-4">
-                    <label for="endereco_referencia" class="form-label">
-                        <span id="rotulo-endereco">Endereço de referência</span>
+                    <label for="id_bairro" class="form-label">
+                        <span id="rotulo-endereco">Seu bairro</span>
                         <span id="opcional-endereco" class="text-muted fw-normal">(opcional)</span>
                     </label>
-                    <input type="text" class="form-control" id="endereco_referencia" name="endereco_referencia"
-                           value="{{ request.form.get('endereco_referencia', '') }}"
-                           placeholder="Ex.: Rua Coelho Rodrigues, 1000 - Centro">
+
+                    <select class="form-select" id="id_bairro" name="id_bairro">
+                        <option value="">Selecione o bairro</option>
+                        <!-- Para cada bairro que veio do controller, cria uma opção na caixa -->
+                        {% for bairro in bairros %}
+                            {# "selected" mantém a escolha se o formulário voltar com erro #}
+                            <option value="{{ bairro.id_bairro }}" {% if request.form.get('id_bairro') == bairro.id_bairro|string %}selected{% endif %}>{{ bairro.nome_bairro }}</option>
+                        {% endfor %}
+                    </select>
                     <div class="form-text" id="ajuda-endereco"></div>
-                    <div class="invalid-feedback">Informe o bairro ou endereço onde você atende.</div>
+                    <div class="invalid-feedback">Escolha o bairro onde você atende.</div>
                 </div>
  
                 <!-- Extras do profissional -->
                 <div id="extras-profissional" class="campos-extras mb-4" hidden>
                     <div class="mb-3">
-                        <label for="categoria" class="form-label">Categoria principal de atuação</label>
-                        <input type="text" class="form-control" id="categoria" name="categoria"
-                               value="{{ request.form.get('categoria', '') }}"
-                               list="lista-categorias" placeholder="Ex.: Eletricista" required>
-                        <datalist id="lista-categorias">
-                            <option value="Eletricista">
-                            <option value="Encanador">
-                            <option value="Pedreiro">
-                            <option value="Pintor">
-                            <option value="Diarista">
-                            <option value="Jardineiro">
-                            <option value="Marceneiro">
-                            <option value="Técnico de informática">
-                            <option value="Técnico de ar-condicionado">
-                        </datalist>
-                        <div class="form-text">Escolha uma sugestão ou digite a sua.</div>
-                        <div class="invalid-feedback">Informe sua categoria de atuação.</div>
+                        <label for="id_categoria" class="form-label">Categoria principal de atuação</label>
+                        <select class="form-select" id="id_categoria" name="id_categoria" required>
+                            <option value="">Selecione a categoria</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id_categoria }}" {% if request.form.get('id_categoria') == categoria.id_categoria|string %}selected{% endif %}>{{ categoria.nome_categoria }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">Escolha sua categoria de atuação.</div>
                     </div>
  
                     <div>
@@ -147,7 +145,7 @@
                 <button type="submit" class="btn btn-criar-conta w-100" id="btn-criar-conta">Criar conta</button>
  
                 <p class="text-center text-muted mt-4 mb-0">
-                    Já tem conta? <a href="#" class="link-login">Entrar</a>
+                    Já tem conta? <a href="{{ url_for('login') }}" class="link-login">Entrar</a>
                 </p>
             </form>
         </div>

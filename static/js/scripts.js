@@ -23,7 +23,7 @@
     if (!form) return; // só roda na página de cadastro
  
     const extrasProfissional = document.getElementById('extras-profissional');
-    const endereco = document.getElementById('endereco_referencia');
+    const endereco = document.getElementById('id_bairro');
     const rotuloEndereco = document.getElementById('rotulo-endereco');
     const opcionalEndereco = document.getElementById('opcional-endereco');
     const ajudaEndereco = document.getElementById('ajuda-endereco');
@@ -45,7 +45,7 @@
         // Campos exclusivos do profissional: mostrados e validados só nesse caso.
         // Campos desativados não são enviados nem entram na validação.
         extrasProfissional.hidden = !ehProfissional;
-        extrasProfissional.querySelectorAll('input, textarea').forEach(el => {
+        extrasProfissional.querySelectorAll('input, select, textarea').forEach(el => {
             el.disabled = !ehProfissional;
         });
  
@@ -54,9 +54,9 @@
         opcionalEndereco.hidden = ehProfissional;
         rotuloEndereco.textContent = ehProfissional
             ? 'Região onde você atende'
-            : 'Endereço de referência';
+            : 'Seu Bairro';
         ajudaEndereco.textContent = ehProfissional
-            ? 'Informe o bairro ou a região para aparecer nas buscas de quem está perto.'
+            ? 'Escolha o bairro para aparecer nas buscas de quem está perto.'
             : 'Usamos para mostrar profissionais perto de você.';
     }
  

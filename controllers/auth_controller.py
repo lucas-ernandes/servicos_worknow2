@@ -1,6 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash, session
 
 from model.usuario_model import Usuario
+from model.bairro import Bairro
+from model.categoria import Categoria
+
 
 def _iniciar_sessao(id_usuario, tipo, nome):
     session.clear()
@@ -8,6 +11,14 @@ def _iniciar_sessao(id_usuario, tipo, nome):
     session["tipo"] = tipo
     session["nome"] = nome
 
+"""Mostra a página de cadastro já com as listas para as caixas de seleção.
+    É chamada tanto no primeiro acesso quanto quando o formulário volta com erro. """
+def _mostrar_cadastro():
+    return render_template(
+        "auth/cadastro.html",
+        bairros=Bairro.listar(),
+        categorias=Categoria.listar(),
+    )
 
 def cadastro():
     if request.method == "POST":
@@ -24,8 +35,8 @@ def cadastro():
 
         for erro in usuario.errors:
             flash(erro, "error")
-
-    return render_template("auth/cadastro.html")
+    
+    return _mostrar_cadastro()
 
 
 def login():

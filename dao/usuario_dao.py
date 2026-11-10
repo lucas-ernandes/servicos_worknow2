@@ -16,6 +16,7 @@ class UsuarioDAO:
             return None
         return dict(linhas[0])
 
+
     def _inserir_usuario(self, data, tipo):
         """Insere na tabela usuarios e devolve o id novo (uso interno do DAO)."""
         sql = """INSERT INTO usuarios (nome, email, senha_hash, telefone, tipo_usuario)
@@ -25,17 +26,19 @@ class UsuarioDAO:
             (data["nome"], data["email"], data["senha_hash"], data["telefone"], tipo),
         )
 
+
     def criar_cliente(self, data):
         """Salva em usuarios + clientes. Retorna o id do usuário, ou None se der erro."""
         self.db.conectar()
         try:
             id_usuario = self._inserir_usuario(data, "cliente")
             self.db.executar(
-                "INSERT INTO clientes (id_usuario, endereco_referencia) VALUES (?, ?);",
-                (id_usuario, data["endereco"]),
+                "INSERT INTO clientes (id_usuario, id_bairro) VALUES (?, ?);",
+                (id_usuario, data["id_bairro"]),
             )
             self.db.confirmar()  # só salva se os dois INSERT deram certo
             return id_usuario
+        
         except Exception as erro:
             self.db.desfazer()  # se algo falhou, não salva nada
             print(f"Erro ao criar cliente: {erro}")
@@ -43,15 +46,16 @@ class UsuarioDAO:
         finally:
             self.db.desconectar()
 
+
     def criar_profissional(self, data):
         """Salva em usuarios + profissionais. Retorna o id do usuário, ou None se der erro."""
         self.db.conectar()
         try:
             id_usuario = self._inserir_usuario(data, "profissional")
             self.db.executar(
-                """INSERT INTO profissionais (id_usuario, endereco_referencia, categoria, descricao)
+                """INSERT INTO profissionais (id_usuario, id_bairro, id_categoria, descricao)
                    VALUES (?, ?, ?, ?);""",
-                (id_usuario, data["endereco"], data["categoria"], data["descricao"]),
+                (id_usuario, data["id_bairro"], data["id_categoria"], data["descricao"]),
             )
             self.db.confirmar()
             return id_usuario

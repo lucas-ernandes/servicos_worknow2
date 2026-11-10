@@ -2,6 +2,10 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from dao.usuario_dao import UsuarioDAO
+from model.util import para_inteiro
+
+"""Converte o texto do formulário em número. Se estiver vazio ou não for
+    número, devolve None. (O <select> envia o id do bairro como texto, ex: "12")"""
 
 
 class Usuario:
@@ -15,8 +19,8 @@ class Usuario:
             "telefone": re.sub(r"\D", "", form.get("telefone", "")),  # fica só com números
             "senha": form.get("senha", ""),
             "confirmar": form.get("confirmar_senha", ""),
-            "endereco": form.get("endereco_referencia", "").strip(),
-            "categoria": form.get("categoria", "").strip(),
+            "id_bairro": para_inteiro(form.get("id_bairro", "")),
+            "id_categoria": para_inteiro(form.get("id_categoria", "")),
             "descricao": form.get("descricao", "").strip(),
         }
 
@@ -40,11 +44,14 @@ class Usuario:
         if d["tipo"] not in ("cliente", "profissional"):
             self.errors.append("Escolha o tipo de conta.")
 
+        # Estas regras valem só para profissional. O cliente pode deixar o bairro vazio.
         if d["tipo"] == "profissional":
-            if not d["categoria"] or len(d["descricao"]) < 20 or not d["endereco"]:
-                self.errors.append(
-                    "Preencha categoria, região e descrição dos serviços (mín. 20 caracteres)."
-                )
+            if d["id_bairro"] is None:
+                self.errors.append("Escolha o bairro onde você atende.")
+            if d["id_categoria"] is None:
+                self.errors.append("Escolha a categoria do seu serviço.")
+            if len(d["descricao"]) < 20:
+                self.errors.append("A descrição dos serviços precisa ter pelo menos 20 caracteres.")
 
     def save(self):
         """Salva a conta no banco. Retorna o id do novo usuário, ou None se falhar
