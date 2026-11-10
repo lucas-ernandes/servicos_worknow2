@@ -1,0 +1,76 @@
+ /* ===================== PERFIL DO PROFISSIONAL =================== */
+.perfil-card {
+    max-width: 720px;
+    margin: 24px auto 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 12px 32px rgba(15, 28, 46, 0.08);
+}
+ 
+/* Bolinha maior (usada junto com .avatar-prof) */
+.avatar-prof-grande {
+    width: 72px;
+    height: 72px;
+    font-size: 1.8rem;
+}
+ 
+/* Mantém as quebras de linha que o profissional escreveu na descrição */
+.perfil-descricao {
+    white-space: pre-line;
+}
+ 
+/* Etiqueta "Disponível" / "Indisponível" */
+.badge-status {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-left: 4px;
+}
+ 
+.badge-status.on {
+    background: rgba(25, 195, 87, 0.12);
+    color: var(--worknow-green-dark);
+}
+ 
+.badge-status.off {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+
+/* ===================== BARRA DE DISPONIBILIDADE (profissional logado) =================== */
+.barra-disponibilidade {
+    padding: 16px 0;
+    font-size: 0.95rem;
+}
+
+.barra-disponibilidade.ligada {
+    background: #e8fff0;
+    border-bottom: 1px solid #bbf7d0;
+    color: #14532d;
+}
+
+.barra-disponibilidade.desligada {
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+}
+
+.barra-disponibilidade .form-check-input,
+.barra-disponibilidade .form-check-label {
+    cursor: pointer;
+}
+
+.barra-disponibilidade .form-check-label {
+    font-weight: 600;
+}
+
+/* Interruptor ligado fica verde (o padrão do Bootstrap é azul) */
+.barra-disponibilidade .form-check-input:checked {
+    background-color: var(--worknow-green);
+    border-color: var(--worknow-green);
+}
