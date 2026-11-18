@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+    WorkNOW - Avaliar
+{% endblock %}
+
+{% block content %}
+
+<section class="cadastro-page">
+    <div class="container px-4">
+        <div class="cadastro-card">
+
+            <h1>Avaliar {{ contato.nome_profissional }}</h1>
+            <p class="subtitulo">Como foi o serviço prestado?</p>
+
+            <form method="post" action="{{ url_for('avaliar', id_contato=contato.id_contato) }}">
+
+                {# Truque de CSS: 5 radios escondidos + labels com estrela.
+                   A ordem no HTML é 5,4,3,2,1 (ao contrário), e o CSS usa
+                   "row-reverse" pra mostrar na tela como 1,2,3,4,5. Isso é o
+                   que permite pintar todas as estrelas até a escolhida. #}
+                <div class="estrelas-input mb-3">
+                    {% for i in [5, 4, 3, 2, 1] %}
+                        <input type="radio" id="estrela{{ i }}" name="nota" value="{{ i }}"
+                               {% if request.form.get('nota') == i|string %}checked{% endif %}>
+                        <label for="estrela{{ i }}" title="{{ i }} estrelas"><i class="fa-solid fa-star"></i></label>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-4">
+                    <label for="comentario" class="form-label">Comentário</label>
+                    <textarea class="form-control" id="comentario" name="comentario" rows="3" maxlength="500"
+                              placeholder="Conte como foi o atendimento...">{{ request.form.get('comentario', '') }}</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-criar-conta w-100">Enviar avaliação</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

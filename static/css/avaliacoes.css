@@ -1,0 +1,56 @@
+
+/* ===================== ESTRELAS (formulário de avaliação) =================== */
+/* Truque de CSS: os inputs ficam escondidos, e a cor do label muda conforme
+   o que está marcado ou sob o mouse (sem precisar de JavaScript kk). */
+.estrelas-input {
+    display: flex;
+    flex-direction: row-reverse;   /* o HTML vem na ordem 5,4,3,2,1; isso mostra 1,2,3,4,5 */
+    justify-content: center;
+    gap: 6px;
+}
+
+.estrelas-input input {
+    display: none;
+}
+
+.estrelas-input label {
+    font-size: 2.2rem;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.estrelas-input input:checked ~ label,
+.estrelas-input label:hover,
+.estrelas-input label:hover ~ label {
+    color: #f5a623;
+}
+
+/* ===================== CARD DE CONTATO (Meus contatos) =================== */
+.card-contato {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 14px rgba(15, 28, 46, 0.06);
+}
+
+/* ===================== AVALIAÇÃO (perfil e Minhas avaliações) =================== */
+.avaliacao-item {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 20px;
+}
+
+.resposta-profissional {
+    background: var(--page-bg);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+}
+
+/* Botão de contato com o ícone do WhatsApp */
+.btn-criar-conta .fa-whatsapp {
+    margin-right: 6px;
+}

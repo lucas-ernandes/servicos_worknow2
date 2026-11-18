@@ -38,6 +38,7 @@
                 <li class="mb-2">
                     {% if profissional.nota_media > 0 %}
                         <i class="fa-solid fa-star text-warning"></i> {{ '%.1f'|format(profissional.nota_media) }}
+                        · {{ avaliacoes|length }} {{ 'avaliação' if avaliacoes|length == 1 else 'avaliações' }}
                     {% else %}
                         <i class="fa-regular fa-star text-muted"></i> <span class="text-muted">Sem avaliações ainda</span>
                     {% endif %}
@@ -51,11 +52,47 @@
             </ul>
 
             <h2 class="h6 fw-bold">Serviços oferecidos</h2>
-            <p class="perfil-descricao mb-0">{{ profissional.descricao }}</p>
+            <p class="perfil-descricao mb-4">{{ profissional.descricao }}</p>
+
+            {# Botão de contato: só aparece para cliente logado.
+               Visitante vê um convite para logar; profissional não vê nada aqui. #}
+            {% if session.get('tipo') == 'cliente' %}
+                <form action="{{ url_for('iniciar_contato') }}" method="post">
+                    <input type="hidden" name="id_profissional" value="{{ profissional.id_profissional }}">
+                    <button type="submit" class="btn btn-criar-conta">
+                        <i class="fa-brands fa-whatsapp"></i> Entrar em contato
+                    </button>
+                </form>
+            {% elif not session.get('usuario_id') %}
+                <a href="{{ url_for('login') }}" class="btn btn-login">Faça login para entrar em contato</a>
+            {% endif %}
 
         </article>
 
+        <h2 class="h6 fw-bold mt-4">Avaliações recebidas</h2>
+        {% if avaliacoes %}
+            {% for av in avaliacoes %}
+                <div class="avaliacao-item mb-3">
+                    <div class="mb-1">
+                        {% for i in range(1, 6) %}
+                            <i class="fa-{{ 'solid' if i <= av.nota else 'regular' }} fa-star text-warning"></i>
+                        {% endfor %}
+                        <strong class="ms-1">{{ av.nome_cliente.split()[0] }}</strong>
+                    </div>
+                    <p class="mb-1">{{ av.comentario }}</p>
+                    {% if av.resposta_profissional %}
+                        <p class="resposta-profissional mb-0">
+                            <i class="fa-solid fa-reply"></i> <strong>Resposta do profissional:</strong> {{ av.resposta_profissional }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">Ainda não há avaliações para este profissional.</p>
+        {% endif %}
+
     </div>
 </section>
+
 
 {% endblock %}

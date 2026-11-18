@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+    WorkNOW - Minhas avaliações
+{% endblock %}
+
+{% block content %}
+
+<section class="busca-page">
+    <div class="container px-4">
+
+        <h1 class="h3 fw-bold">Minhas avaliações</h1>
+        <p class="text-muted mb-4">O que seus clientes disseram sobre o seu serviço.</p>
+
+        {% if avaliacoes %}
+            {% for av in avaliacoes %}
+                <div class="avaliacao-item mb-3">
+
+                    <div class="mb-1">
+                        {% for i in range(1, 6) %}
+                            <i class="fa-{{ 'solid' if i <= av.nota else 'regular' }} fa-star text-warning"></i>
+                        {% endfor %}
+                        <strong class="ms-1">{{ av.nome_cliente.split()[0] }}</strong>
+                    </div>
+
+                    <p class="mb-2">{{ av.comentario }}</p>
+
+                    {% if av.resposta_profissional %}
+                        {# já respondeu: só mostra a resposta, sem formulário #}
+                        <p class="resposta-profissional mb-0">
+                            <i class="fa-solid fa-reply"></i> <strong>Sua resposta:</strong> {{ av.resposta_profissional }}
+                        </p>
+                    {% else %}
+                        {# ainda não respondeu: mostra o formulário #}
+                        <form action="{{ url_for('responder_avaliacao', id_avaliacao=av.id_avaliacao) }}" method="post" class="mt-2">
+                            <textarea class="form-control mb-2" name="resposta" rows="2" maxlength="500"
+                                      placeholder="Responder a esta avaliação..." required></textarea>
+                            <button type="submit" class="btn btn-login btn-sm">Responder</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">Você ainda não recebeu nenhuma avaliação.</p>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}
+    WorkNOW - Meus contatos
+{% endblock %}
+
+{% block content %}
+
+<section class="busca-page">
+    <div class="container px-4">
+
+        <h1 class="h3 fw-bold">Meus contatos</h1>
+        <p class="text-muted mb-4">Profissionais que você já contatou pelo WorkNOW.</p>
+
+        {% if contatos %}
+            {% for c in contatos %}
+                <div class="card-contato mb-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+                        <div>
+                            <h2 class="h6 fw-bold mb-1">{{ c.nome_profissional }}</h2>
+                            <span class="badge-categoria">{{ c.nome_categoria }}</span>
+                        </div>
+
+                        {# status vem do banco: 'iniciado' ou 'concluido' #}
+                        {% if c.status == 'iniciado' %}
+                            <form action="{{ url_for('concluir_contato', id_contato=c.id_contato) }}" method="post">
+                                <button type="submit" class="btn btn-login">Marcar como concluído</button>
+                            </form>
+
+                        {% elif c.id_avaliacao is none %}
+                            {# concluído, mas ainda sem avaliação #}
+                            <a href="{{ url_for('avaliar', id_contato=c.id_contato) }}" class="btn btn-criar-conta">
+                                Avaliar
+                            </a>
+
+                        {% else %}
+                            {# concluído e já avaliado: mostra a nota dada #}
+                            <span class="text-muted">
+                                Você avaliou:
+                                {% for i in range(1, 6) %}
+                                    <i class="fa-{{ 'solid' if i <= c.nota else 'regular' }} fa-star text-warning"></i>
+                                {% endfor %}
+                            </span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">Você ainda não entrou em contato com nenhum profissional.</p>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
