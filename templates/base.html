@@ -13,9 +13,11 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil_profis.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/avaliacoes.css')}}">
     </head>
 
     <body id="page-top">
+
         <!-- NAV BAR-->
        <header class="header-worknow p-3">
     <div class="container">
@@ -30,6 +32,11 @@
                 <li><a href="#" class="nav-link px-2 link-work">Serviços</a></li>
                 <li><a href="{{ url_for('profissionais') }}" class="nav-link px-2 link-work">Profissionais</a></li>
                 <li><a href="#" class="nav-link px-2 link-work">Sobre nós</a></li>
+                {% if session.get('tipo') == 'cliente' %}
+                    <li><a href="{{ url_for('meus_contatos') }}" class="nav-link px-2 link-work">Meus contatos</a></li>
+                {% elif session.get('tipo') == 'profissional' %}
+                    <li><a href="{{ url_for('minhas_avaliacoes') }}" class="nav-link px-2 link-work">Minhas avaliações</a></li>
+                {% endif %}   
             </ul>
 
             <!-- Botões -->
