@@ -9,3 +9,8 @@ def para_inteiro(texto):
         return int(texto)
     return None
 
+def formatar_whatsapp(telefone):
+    """Transforma o telefone salvo (ex: "86999990000") no formato que o link
+    do WhatsApp pede: só números, com o código do Brasil (55) na frente."""
+    numeros = ''.join(c for c in telefone if c.isdigit())
+    return '55' + numeros
