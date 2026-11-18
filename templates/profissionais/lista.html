@@ -20,8 +20,8 @@
                     <select class="form-select" id="bairro" name="bairro">
                         <option value="">Todos os bairros</option>
                         {% for bairro in bairros %}
-                            {# request.args.get('bairro') = o que está na URL; mantém a escolha marcada #}
-                            <option value="{{ bairro.id_bairro }}" {% if request.args.get('bairro') == bairro.id_bairro|string %}selected{% endif %}>{{ bairro.nome_bairro }}</option>
+                            {# bairro_selecionado = o que está marcado (escolha da pessoa OU o bairro salvo dela) #}
+                            <option value="{{ bairro.id_bairro }}" {% if bairro_selecionado == bairro.id_bairro|string %}selected{% endif %}>{{ bairro.nome_bairro }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -42,6 +42,14 @@
 
             </div>
         </form>
+
+        {# Avisa quando o filtro veio sozinho, do bairro salvo do cliente #}
+        {% if veio_do_cliente and resultado.nivel == 'bairro' %}
+            <div class="alert alert-light border mb-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span>Mostrando profissionais do seu bairro, <strong>{{ resultado.bairro.nome_bairro }}</strong>.</span>
+                <a href="{{ url_for('profissionais', bairro='') }}" class="link-login">Ver todos os bairros</a>
+            </div>
+        {% endif %}
 
         {# Aviso conforme o resultado da busca (o "nivel" vem do model) #}
         {% if resultado.nivel == 'zona' %}
@@ -88,6 +96,7 @@
                             <p class="small mb-0">
                                 {% if p.nota_media > 0 %}
                                     <i class="fa-solid fa-star text-warning"></i> {{ '%.1f'|format(p.nota_media) }}
+                                    · {{ p.total_avaliacoes }} {{ 'avaliação' if p.total_avaliacoes == 1 else 'avaliações' }}
                                 {% else %}
                                     <span class="text-muted">Sem avaliações ainda</span>
                                 {% endif %}
