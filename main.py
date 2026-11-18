@@ -3,6 +3,8 @@ from flask import Flask
 from database.sqlitedb import SQLiteDB
 from routers import main_routes, auth_routes
 from routers import profissional_router
+from routers import avaliacao_router
+from routers import contato_router
 
 app = Flask(__name__)
 # Em produção, defina SECRET_KEY como variável de ambiente (valor grande e aleatório)
@@ -19,6 +21,8 @@ db.desconectar()
 main_routes.adicionar_rotas(app)
 auth_routes.adionar_rotas(app)
 profissional_router.adicionar_rotas(app)
+avaliacao_router.adicionar_rotas(app)
+contato_router.adicionar_rotas(app)
 
 if __name__ == "__main__":
     app.run(debug=True)
