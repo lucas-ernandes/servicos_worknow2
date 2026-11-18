@@ -9,7 +9,9 @@ categoria; com o JOIN a gente pega o NOME deles nas outras tabelas, e o nome da 
 
 CONSULTA_BASE = """
     SELECT p.id_profissional, u.nome, p.descricao, p.nota_media,
-        b.nome_bairro, b.zona, c.nome_categoria
+        b.nome_bairro, b.zona, c.nome_categoria,
+        -- Subconsulta: conta quantas avaliações esse profissional tem, sem precisar de outro JOIN.
+        (SELECT COUNT(*) FROM avaliacoes a WHERE a.id_profissional = p.id_profissional) AS total_avaliacoes
     FROM profissionais p
     JOIN usuarios u ON u.id_usuario = p.id_usuario
     JOIN bairros b ON b.id_bairro = p.id_bairro
@@ -120,8 +122,37 @@ estiver inativa ou banida. Não devolve e-mail nem telefone.'''
         finally:
             self.db.desconectar()
 
-    
+    def buscar_contato(self, id_profissional):
+        '''Nome e telefone do profissional, usados para montar o link do
+        WhatsApp. Só devolve se a conta estiver ativa.'''
+        sql = """
+            SELECT u.nome, u.telefone
+            FROM profissionais p
+            JOIN usuarios u ON u.id_usuario = p.id_usuario
+            WHERE p.id_profissional = ? AND u.status = 'ativo';
+        """
+        self.db.conectar()
+        try:
+            linhas = self.db.consultar(sql, (id_profissional,))
+        finally:
+            self.db.desconectar()
+
+        if len(linhas) == 0:
+            return None
+        return dict(linhas[0])
         
-        
-        
-        
+    def buscar_id_por_usuario(self, id_usuario):
+        """Converte o id_usuario (da sessão) no id_profissional (usado nas
+        outras tabelas). Devolve None se esse usuário não for profissional."""
+        self.db.conectar()
+        try:
+            linhas = self.db.consultar(
+                "SELECT id_profissional FROM profissionais WHERE id_usuario = ?;",
+                (id_usuario,),
+            )
+        finally:
+            self.db.desconectar()
+
+        if len(linhas) == 0:
+            return None
+        return linhas[0]["id_profissional"]
