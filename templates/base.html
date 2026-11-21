@@ -29,18 +29,24 @@
             <!-- Menu de navegação -->
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{{ url_for('inicio') }}" class="nav-link px-2 link-work">Início</a></li>
-                <li><a href="#" class="nav-link px-2 link-work">Serviços</a></li>
                 <li><a href="{{ url_for('profissionais') }}" class="nav-link px-2 link-work">Profissionais</a></li>
-                <li><a href="#" class="nav-link px-2 link-work">Sobre nós</a></li>
                 {% if session.get('tipo') == 'cliente' %}
                     <li><a href="{{ url_for('meus_contatos') }}" class="nav-link px-2 link-work">Meus contatos</a></li>
                 {% elif session.get('tipo') == 'profissional' %}
                     <li><a href="{{ url_for('minhas_avaliacoes') }}" class="nav-link px-2 link-work">Minhas avaliações</a></li>
-                {% endif %}   
+                {% endif %}
             </ul>
 
             <!-- Botões -->
             {% if session.get('usuario_id') %}
+                {# Bolinha com a foto (ou a inicial), clicável, levando direto pro "Meu perfil" #}
+                <a href="{{ url_for('editar_perfil') }}" class="avatar-menu me-2" title="Meu perfil">
+                    {% if foto_usuario_logado %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ foto_usuario_logado) }}" alt="" class="avatar-menu-img">
+                    {% else %}
+                        <span class="avatar-menu-inicial">{{ session['nome'][0]|upper }}</span>
+                    {% endif %}
+                </a>
                 <span class="link-work  me-3" >Olá, {{session['nome'].split()[0] }}</span>
                 <a href="{{ url_for('logout') }}" class="btn btn-login">Sair</a>
             {% else %}
