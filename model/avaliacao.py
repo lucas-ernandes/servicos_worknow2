@@ -11,8 +11,6 @@ class Avaliacao:
     def validate(self):
         if self.data["nota"] not in ("1", "2", "3", "4", "5"):
             self.errors.append("Escolha uma nota de 1 a 5 estrelas.")
-        if len(self.data["comentario"]) < 5:
-            self.errors.append("Escreva um comentário com pelo menos 5 caracteres.")
 
     def salvar(self, id_contato, id_cliente, id_profissional):
         """Só chame depois de validate() não ter encontrado erros."""
