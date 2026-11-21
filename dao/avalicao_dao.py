@@ -47,7 +47,7 @@ class AvalicaoDAO:
         """Avaliações recebidas por um profissional, com o nome de quem avaliou."""
         sql = """
             SELECT a.id_avaliacao, a.nota, a.comentario, a.resposta_profissional, a.data_avaliacao,
-                   u.nome AS nome_cliente
+                   u.nome AS nome_cliente, u.foto AS foto_cliente
             FROM avaliacoes a
             JOIN usuarios u ON u.id_usuario = a.id_cliente
             WHERE a.id_profissional = ?

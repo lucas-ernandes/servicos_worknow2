@@ -19,6 +19,13 @@
                         {% for i in range(1, 6) %}
                             <i class="fa-{{ 'solid' if i <= av.nota else 'regular' }} fa-star text-warning"></i>
                         {% endfor %}
+                        <span class="avatar-mini">
+                            {% if av.foto_cliente %}
+                                <img src="{{ url_for('static', filename='uploads/' ~ av.foto_cliente) }}" alt="">
+                            {% else %}
+                                {{ av.nome_cliente[0]|upper }}
+                            {% endif %}
+                        </span>
                         <strong class="ms-1">{{ av.nome_cliente.split()[0] }}</strong>
                     </div>
 
