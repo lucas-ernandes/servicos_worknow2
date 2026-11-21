@@ -5,6 +5,7 @@ from routers import main_routes, auth_routes
 from routers import profissional_router
 from routers import avaliacao_router
 from routers import contato_router
+from routers import perfil_router
 
 app = Flask(__name__)
 # Em produção, defina SECRET_KEY como variável de ambiente (valor grande e aleatório)
@@ -21,8 +22,22 @@ db.desconectar()
 main_routes.adicionar_rotas(app)
 auth_routes.adionar_rotas(app)
 profissional_router.adicionar_rotas(app)
-avaliacao_router.adicionar_rotas(app)
 contato_router.adicionar_rotas(app)
+avaliacao_router.adicionar_rotas(app)
+perfil_router.adicionar_rotas(app)
+
+# Deixa a foto do usuário logado disponível em qualquer template (ex: base.html),
+# sem precisar passar "foto=..." em cada render_template().
+@app.context_processor
+def injetar_foto_logado():
+    from flask import session
+    from dao.usuario_dao import UsuarioDAO
+
+    foto = None
+    if session.get("usuario_id"):
+        foto = UsuarioDAO().buscar_foto(session["usuario_id"])
+    return {"foto_usuario_logado": foto}
+
 
 if __name__ == "__main__":
     app.run(debug=True)
