@@ -24,8 +24,7 @@ class Profissional:
         
         # Sem bairro: mostra todo mundo (filtrando só pela categoria, se escolhida)
         if bairro is None:
-            return {"nivel": "todos", "bairro": None,
-                    "profissionais": dao.buscar_todos(id_categoria)}
+            return {"nivel": "todos", "bairro": None, "profissionais": dao.buscar_todos(id_categoria)}
             
         # 1º) tenta no bairro escolhido
         lista = dao.buscar_no_bairro(bairro["id_bairro"], id_categoria)
