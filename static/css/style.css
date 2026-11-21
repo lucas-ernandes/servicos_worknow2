@@ -463,7 +463,7 @@ body{
 .busca-filtros {
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 4px;
     padding: 20px;
     margin: 24px 0;
     box-shadow: 0 6px 20px rgba(15, 28, 46, 0.06);
@@ -494,12 +494,10 @@ body{
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 6px 20px rgba(15, 28, 46, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-profissional:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(15, 28, 46, 0.12);
+    box-shadow: 0 12px 28px rgba(29, 124, 29, 0.299);
 }
 
 /* Bolinha verde com a inicial do nome */
