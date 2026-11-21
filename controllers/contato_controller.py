@@ -55,3 +55,17 @@ def avaliar(id_contato):
         for erro in avaliacao.errors:
             flash(erro, 'danger')
     return render_template('contatos/avaliar.html', contato=contato)
+
+
+def remover(id_contato):
+    """Botão "Remover" de Meus contatos: some da lista do cliente, mas
+    continua existindo no banco (histórico e avaliação não se perdem)."""
+    
+    if session.get('tipo') != 'cliente':
+        abort(403)
+    if not Contato.remover(id_contato, session['usuario_id']):
+        flash('Não foi possivel remover este contato.', 'danger')
+    else:
+        flash('Contato removido da sua lista.', 'success')
+        
+    return redirect(url_for('meus_contatos'))

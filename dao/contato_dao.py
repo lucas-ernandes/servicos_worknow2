@@ -72,14 +72,14 @@ class ContatoDAO:
 
         sql = """
             SELECT c.id_contato, c.status, c.data_contato,
-                p.id_profissional, u.nome AS nome_profissional, cat.nome_categoria,
-                a.id_avaliacao, a.nota
+                   p.id_profissional, u.nome AS nome_profissional, cat.nome_categoria,
+                   a.id_avaliacao, a.nota
             FROM contatos c
             JOIN profissionais p ON p.id_profissional = c.id_profissional
             JOIN usuarios u ON u.id_usuario = p.id_usuario
             JOIN categorias_servico cat ON cat.id_categoria = p.id_categoria
             LEFT JOIN avaliacoes a ON a.id_contato = c.id_contato
-            WHERE c.id_cliente = ?
+            WHERE c.id_cliente = ? AND c.oculto = 0
             ORDER BY c.data_contato DESC;
         """
         
@@ -90,5 +90,20 @@ class ContatoDAO:
             self.db.desconectar()
         return [dict(linha) for linha in linhas]
         
+    def ocultar(self, id_contato):
+        """Marca o contato como oculto: some de "Meus contatos", mas continua
+        no banco (histórico/avaliação não se perdem)."""
+        
+        self.db.conectar()
+        try:
+            self.db.executar("UPDATE contatos SET oculto = 1 WHERE id_contato = ?;", (id_contato,))
+            self.db.confirmar()
+            return True
+        except Exception as erro:
+            self.db.desfazer()
+            print(f"Erro ao remover contato: {erro}")
+            return False
+        finally:
+            self.db.desconectar()
             
     

@@ -44,6 +44,14 @@
                         {% endif %}
 
                     </div>
+
+                    {# onsubmit com confirm(): pergunta antes de remover, sem precisar de biblioteca #}
+                    <form action="{{ url_for('remover_contato', id_contato=c.id_contato) }}" method="post"
+                          class="mt-2" onsubmit="return confirm('Remover este profissional da sua lista de contatos?');">
+                        <button type="submit" class="btn btn-sm text-danger p-0 border-0 bg-transparent">
+                            <i class="fa-solid fa-xmark"></i> Remover
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
         {% else %}

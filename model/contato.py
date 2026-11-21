@@ -56,3 +56,16 @@ class Contato:
         info = ProfissionalDAO().buscar_contato(contato["id_profissional"])
         contato["nome_profissional"] = info["nome"] if info else "profissional"
         return contato
+    
+    
+    @staticmethod
+    def remover(id_contato, id_cliente):
+        """Remove (oculta) o contato da lista do cliente, em qualquer status
+        (iniciado, concluído, com ou sem avaliação). Só funciona se o contato
+        for desse cliente. A avaliação, se existir, continua existindo e
+        continua contando na nota média do profissional."""
+        
+        contato = ContatoDAO().buscar_por_id(id_contato)
+        if contato is None or contato["id_cliente"] != id_cliente:
+            return False
+        return ContatoDAO().ocultar(id_contato)
