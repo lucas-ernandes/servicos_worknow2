@@ -8,7 +8,7 @@ categoria; com o JOIN a gente pega o NOME deles nas outras tabelas, e o nome da 
 # Só aparecem profissionais disponíveis (interruptor ligado) e com conta ativa.
 
 CONSULTA_BASE = """
-    SELECT p.id_profissional, u.nome, p.descricao, p.nota_media,
+    SELECT p.id_profissional, u.nome, u.foto, p.descricao, p.nota_media,
         b.nome_bairro, b.zona, c.nome_categoria,
         -- Subconsulta: conta quantas avaliações esse profissional tem, sem precisar de outro JOIN.
         (SELECT COUNT(*) FROM avaliacoes a WHERE a.id_profissional = p.id_profissional) AS total_avaliacoes
@@ -69,7 +69,7 @@ estiver inativa ou banida. Não devolve e-mail nem telefone.'''
     def buscar_por_id(self, id_profissional):
      
         sql = """
-            SELECT p.id_profissional, u.nome, u.data_cadastro, p.descricao,
+            SELECT p.id_profissional, u.nome, u.foto, u.data_cadastro, p.descricao,
                 p.nota_media, p.disponivel,
                 b.nome_bairro, b.zona, c.nome_categoria
             FROM profissionais p
