@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
     telefone      TEXT NOT NULL,
     tipo_usuario  TEXT NOT NULL CHECK (tipo_usuario IN ('cliente', 'profissional', 'admin')),
     data_cadastro TEXT NOT NULL DEFAULT (datetime('now', '-3 hours')),  -- hora de Teresina (UTC-3)
-    status        TEXT NOT NULL DEFAULT 'ativo' CHECK (status IN ('ativo', 'inativo', 'banido'))
+    status        TEXT NOT NULL DEFAULT 'ativo' CHECK (status IN ('ativo', 'inativo', 'banido')),
+    foto          TEXT  -- nome do arquivo em static/uploads/ (ex: "usuario_7.jpg"); NULL = sem foto
 );
 
 -- Dados so do cliente. O bairro é opcional
@@ -52,7 +53,8 @@ CREATE TABLE IF NOT EXISTS contatos (
     id_cliente      INTEGER NOT NULL REFERENCES usuarios(id_usuario),
     id_profissional INTEGER NOT NULL REFERENCES profissionais(id_profissional),
     data_contato    TEXT NOT  NULL DEFAULT (datetime('now', '-3 hours')),
-    status          TEXT NOT NULL DEFAULT 'iniciado' CHECK (status IN ('iniciado', 'concluido'))
+    status          TEXT NOT NULL DEFAULT 'iniciado' CHECK (status IN ('iniciado', 'concluido')),
+    oculto          INTEGER NOT NULL DEFAULT 0 -- 1 = o cliente removeu esse contato da lista dele
 );
 
 
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
     id_cliente            INTEGER NOT NULL REFERENCES usuarios(id_usuario),
     id_profissional       INTEGER NOT NULL REFERENCES profissionais(id_profissional),
     nota                  INTEGER NOT NULL CHECK (nota BETWEEN 1 AND 5),
-    comentario            TEXT NOT NULL,
+    comentario            TEXT,
     resposta_profissional TEXT,
     data_avaliacao        TEXT NOT NULL DEFAULT (datetime('now', '-3 hours'))
 );
