@@ -42,35 +42,58 @@
 }
 
 
-/* ===================== BARRA DE DISPONIBILIDADE (profissional logado) =================== */
-.barra-disponibilidade {
-    padding: 16px 0;
-    font-size: 0.95rem;
+/* ===================== CHIP DE DISPONIBILIDADE (profissional logado) =================== */
+.chip-disponibilidade {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 10px 8px 16px;
+    /* O .hero logo abaixo tem margin-top: -18px (puxa pra cima e cobre o que vem antes).
+       Esse margin-bottom maior que 18px garante que sempre sobre um respiro visível. */
+    margin: 16px 0 28px;
+    box-shadow: 0 4px 14px rgba(15, 28, 46, 0.08);
+    font-size: 0.88rem;
+    position: relative;
+    z-index: 3;
 }
 
-.barra-disponibilidade.ligada {
-    background: #e8fff0;
-    border-bottom: 1px solid #bbf7d0;
-    color: #14532d;
+/* Bolinha de status: verde = disponível, cinza = indisponível */
+.chip-disponibilidade-ponto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
-.barra-disponibilidade.desligada {
-    background: #f3f4f6;
-    border-bottom: 1px solid #e5e7eb;
-    color: #374151;
+.chip-disponibilidade.ligado .chip-disponibilidade-ponto {
+    background: var(--worknow-green);
+    box-shadow: 0 0 0 3px rgba(25, 195, 87, 0.18);
 }
 
-.barra-disponibilidade .form-check-input,
-.barra-disponibilidade .form-check-label {
-    cursor: pointer;
+.chip-disponibilidade.desligado .chip-disponibilidade-ponto {
+    background: #9ca3af;
 }
 
-.barra-disponibilidade .form-check-label {
+.chip-disponibilidade-texto {
+    color: var(--worknow-ink);
     font-weight: 600;
+    white-space: nowrap;
+}
+
+.chip-disponibilidade .form-check-input {
+    cursor: pointer;
+    margin: 0;
 }
 
 /* Interruptor ligado fica verde (o padrão do Bootstrap é azul) */
-.barra-disponibilidade .form-check-input:checked {
+.chip-disponibilidade .form-check-input:checked {
     background-color: var(--worknow-green);
     border-color: var(--worknow-green);
+}
+
+@media (max-width: 480px) {
+    .chip-disponibilidade-texto { display: none; } /* no celular sobra só a bolinha + interruptor */
 }
