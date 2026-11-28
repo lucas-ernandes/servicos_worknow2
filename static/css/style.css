@@ -208,7 +208,7 @@ body{
     }
 
     .hero .lead {
-        max-width: 480px;
+        max-width: 540px;
         font-size: 1.05rem;
         opacity: 0.95;
     }
@@ -533,3 +533,119 @@ body{
     background-color: transparent;
 }
 
+
+/* ===================== TELA PRINCIPAL: seções informativas =================== */
+/* Obs: .secao-servicos (fundo --page-bg) já existe lá em cima; aqui ficam as demais. */
+
+/* ----- Como funciona ----- */
+.secao-como-funciona,
+.secao-profissional {
+    background: #fff;
+}
+
+/* Quadradinho com o ícone do passo */
+.passo-icone {
+    position: relative; /* serve de referência pra posicionar o número no canto */
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    border-radius: 14px;
+    background: rgba(25, 195, 87, 0.12);
+    color: var(--worknow-green-dark);
+    font-size: 1.4rem;
+}
+
+/* Número do passo, na quina do ícone */
+.passo-numero {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--worknow-green-dark);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.passo-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--worknow-ink);
+}
+
+.passo p {
+    max-width: 36ch; /* evita linhas muito compridas, mais fácil de ler */
+    margin-bottom: 0;
+    color: #5b6b80;
+}
+
+/* ----- Serviços (categorias) ----- */
+.card-servico {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--worknow-ink);
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-servico i {
+    width: 22px;
+    text-align: center;
+    color: var(--worknow-green-dark);
+    font-size: 1.15rem;
+}
+
+.card-servico:hover,
+.card-servico:focus-visible {
+    border-color: var(--worknow-green);
+    box-shadow: 0 6px 16px rgba(15, 28, 46, 0.08);
+    color: var(--worknow-ink);
+}
+
+/* Quem navega pelo teclado (Tab) precisa ver onde está */
+.card-servico:focus-visible {
+    outline: 2px solid var(--worknow-green-dark);
+    outline-offset: 2px;
+}
+
+/* ----- Chamada para profissionais (só visitante) ----- */
+.chamada-profissional {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* no celular o botão desce pra baixo do texto */
+    gap: 24px;
+    padding: 28px 32px;
+    border: 1px solid #c9efd8;
+    border-radius: 16px;
+    background: #eafaf0;
+}
+
+.chamada-profissional h2 {
+    color: var(--worknow-ink);
+}
+
+.chamada-profissional p {
+    max-width: 52ch;
+    color: #3d4f63;
+}
+
+/* Respeita quem pediu "menos animação" no sistema */
+@media (prefers-reduced-motion: reduce) {
+    .card-servico { transition: none; }
+}

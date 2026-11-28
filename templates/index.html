@@ -34,14 +34,16 @@ WorkNOW - Inicio
 <header class="hero">
     <div class="container px-4">
         <h1>
-            Encontre profissionais<br>
-            <span class="destaque">perto de você</span>,<br>
-            de forma rápida e segura.
+            Encontre o profissional<br>
+            certo <span class="destaque">perto de você</span>,<br>
+            sem complicação.
         </h1>
 
+        {# A frase diz QUEM são os profissionais (com exemplos) e o que a pessoa pode fazer aqui #}
         <p class="lead mt-3 mb-4">
-            O <strong>WorkNOW</strong> conecta você a profissionais qualificados
-            em Teresina. Sem burocracia, sem intermediários.
+            O <strong>WorkNOW</strong> reúne eletricistas, encanadores, diaristas,
+            pintores e outros profissionais autônomos de Teresina. Busque pelo seu
+            bairro, veja as avaliações de quem já contratou e fale direto pelo WhatsApp.
         </p>
 
         <form class="search-box" action="{{ url_for('profissionais') }}" method="get">
@@ -80,13 +82,109 @@ WorkNOW - Inicio
 
 </header>
 
-<!-- Seção abaixo (mesma cor do fade) -->
-<section class="secao-servicos py-5">
+<!-- ===================== COMO FUNCIONA ===================== -->
+{# Explica o sistema pra quem chega pela primeira vez. Aqui os números fazem sentido porque é uma sequência. #}
+<section class="secao-como-funciona py-5" aria-labelledby="titulo-como-funciona">
     <div class="container px-4">
-        <h2 class="h4 fw-bold">Serviços mais procurados</h2>
-        <p class="text-muted">Encontre o profissional ideal para o seu serviço.</p>
+        <h2 id="titulo-como-funciona" class="h4 fw-bold">Como funciona</h2>
+        <p class="text-muted mb-4">Em três passos você sai da busca e chega ao profissional.</p>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-4">
+                <div class="passo">
+                    <div class="passo-icone">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <span class="passo-numero">1</span>
+                    </div>
+                    <h3 class="passo-titulo">Busque</h3>
+                    {# Esse texto descreve a regra real da busca: bairro primeiro, depois a zona da cidade #}
+                    <p>Escolha o tipo de serviço e o seu bairro. Se não houver ninguém no bairro,
+                       mostramos os profissionais da mesma zona da cidade.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="passo">
+                    <div class="passo-icone">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        <span class="passo-numero">2</span>
+                    </div>
+                    <h3 class="passo-titulo">Compare</h3>
+                    <p>Veja o perfil, a nota e os comentários de clientes que já contrataram
+                       o profissional.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="passo">
+                    <div class="passo-icone">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        <span class="passo-numero">3</span>
+                    </div>
+                    <h3 class="passo-titulo">Fale direto</h3>
+                    <p>Chame pelo WhatsApp, combine tudo com o profissional e, depois,
+                       deixe a sua avaliação.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- ===================== SERVIÇOS (categorias) ===================== -->
+{# Ícone de cada categoria. A chave é o nome EXATO da categoria no banco.
+   Como a lista de categorias ainda é provisória, qualquer categoria nova
+   que não esteja aqui ganha o ícone padrão (ferramentas), e nada quebra. #}
+{% set icones = {
+    'Eletricista': 'fa-bolt',
+    'Encanador': 'fa-faucet-drip',
+    'Pedreiro': 'fa-trowel-bricks',
+    'Pintor': 'fa-paint-roller',
+    'Marceneiro': 'fa-hammer',
+    'Diarista': 'fa-broom',
+    'Jardineiro': 'fa-seedling',
+    'Técnico de informática': 'fa-laptop-code',
+    'Técnico de ar-condicionado': 'fa-snowflake',
+    'Cabeleireiro': 'fa-scissors',
+    'Manicure': 'fa-hand-sparkles'
+} %}
+
+<section class="secao-servicos py-5" aria-labelledby="titulo-servicos">
+    <div class="container px-4">
+        <h2 id="titulo-servicos" class="h4 fw-bold">Serviços que você encontra aqui</h2>
+        <p class="text-muted mb-4">Escolha uma categoria para ver os profissionais.</p>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+            {% for categoria in categorias %}
+            <div class="col">
+                {# Reaproveita a rota de busca que já existe: /profissionais?categoria=ID #}
+                <a href="{{ url_for('profissionais', categoria=categoria.id_categoria) }}" class="card-servico">
+                    <i class="fa-solid {{ icones.get(categoria.nome_categoria, 'fa-screwdriver-wrench') }}" aria-hidden="true"></i>
+                    <span>{{ categoria.nome_categoria }}</span>
+                </a>
+            </div>
+            {% else %}
+            <p class="text-muted">Nenhuma categoria cadastrada ainda.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CHAMADA PARA PROFISSIONAIS ===================== -->
+{# Só visitante vê. Quem já está logado já tem conta, então o convite não faz sentido. #}
+{% if not session.get('usuario_id') %}
+<section class="secao-profissional py-5">
+    <div class="container px-4">
+        <div class="chamada-profissional">
+            <div>
+                <h2 class="h4 fw-bold mb-2">Você é profissional autônomo?</h2>
+                <p class="mb-0">Crie seu perfil, informe o bairro onde atua e apareça nas
+                   buscas de quem precisa do seu serviço.</p>
+            </div>
+            <a href="{{ url_for('cadastro') }}" class="btn btn-cadastrar">Cadastrar como profissional</a>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 
 {% endblock %}
